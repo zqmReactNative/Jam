@@ -51,6 +51,9 @@ import React, {
   Image,
 } from 'react-native';
 
+import ZQMSVGButton from '../components/ZQMSVGButton';
+
+import Channels from './Channels';
 
 export default class Home extends Component {
 
@@ -58,9 +61,14 @@ export default class Home extends Component {
     return (
       <View style={[styles.container, {backgroundColor:'white'}]}>
         <ScrollView >
-          <View style={[{backgroundColor:'green', height:300}]}>
-          </View>
-          <View style={[{backgroundColor:'pink', height:300}]}>
+          {/*
+            <View style={[{backgroundColor:'pink',justifyContent:'center', flexDirection:'row'}]}>
+              <Channels style={[{flex:1, }]}/>
+            </View>
+            */}
+
+          <Channels style={[{flex:1, }, styles.section]}/>
+          <View style={[{flex:1, height: 70, backgroundColor:'pink'}]}>
           </View>
         </ScrollView>
       </View>

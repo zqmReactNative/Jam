@@ -62,7 +62,7 @@ NSString *const kAppHubAppID = @"fDZxL9uhDg26qqHXrKJY";
   jsCodeLocation = [build.bundle URLForResource:@"main"
                                   withExtension:@"jsbundle"];
 #else
-  
+
   jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
 
 #endif

@@ -5,9 +5,11 @@ import React,{
   Text,
   View,
   Image,
+  Navigator,
 } from 'react-native';
 
 import ZQMSVGButton from '../components/ZQMSVGButton';
+
 
 
 // 婚宴酒店  #f88     id:268,type:"wide"
@@ -50,6 +52,9 @@ export default class Channels extends Component {
 
 
 
+
+
+
   _renderButton(){
     return (
       <ZQMSVGButton>
@@ -61,6 +66,7 @@ export default class Channels extends Component {
 
 
   render() {
+    const {navigator} = this.props;
     return (
       <View style={this.props.style}>
         <View style={[styles.menu]}>
@@ -69,7 +75,26 @@ export default class Channels extends Component {
             Section_0_SVG_Paths.map(
               (item, index)=>{
                 return (
-                  <ZQMSVGButton key={index} title={item.title} colorOfCircle={item.fillColor} onPress={()=>{alert(item.id)}} containerStyle={styles.entry} svgPath={item.path}/>
+                  <ZQMSVGButton
+                    key={index}
+                    title={item.title}
+                    colorOfCircle={item.fillColor}
+                    onPress={()=>{
+                      if (navigator) {
+                        this.props.navigator.push({
+                          message: '向右拖拽关闭页面',
+                          sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+                        });
+                      }
+                      else {
+                        alert(item.id);
+                      }
+
+
+                    }}
+                    containerStyle={styles.entry}
+                    svgPath={item.path}
+                    />
                 );
               }
             )

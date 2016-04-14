@@ -1,4 +1,5 @@
 // 图库
+/*
 __d("marry/views/Album.js",
 function(e,t,n,r){
   Object.defineProperty(r,"__esModule",{value:!0});
@@ -45,3 +46,137 @@ function(e,t,n,r){
           t._onSortChange=function(e,n){t.setState({type:n,sortTitle:e})},
           t._getRender=function(e){return e=e||c.defaultId,s["default"].every(t.state.categories,function(t){var n=t.id,r=t.children;return n===e||s["default"].find(r,{id:e})?(e=n,!1):!0}),s["default"].find(C["default"],{id:e}).type},t.state={sortBys:h["default"],categories:p["default"]},t.state.render=t._getRender(),t}return babelHelpers.inherits(n,t),babelHelpers.createClass(n,[{key:"render",value:function(){return o["default"].createElement(i.View,{style:O.container,collapsable:!1},o["default"].createElement(y["default"],null,o["default"].createElement(E["default"],{title:this.state.catTitle||c.defaultTitle,id:this.state.catId||c.defaultId,data:this.state.categories,onChange:this._onCategoryChange}),o["default"].createElement(T["default"],{title:this.state.sortTitle||f.defaultTitle,id:this.state.type||f.defaultId,data:this.state.sortBys,onChange:this._onSortChange})),o["default"].createElement(S["default"],{api:"caselist",name:"album",style:O.container,contentContainerStyle:O.contentContainer,renderRow:this._renderRow,data:{type:this.state.type,catid:this.state.catId},initialListSize:8,pageSize:2,key:this.state.catId+":"+this.state.type}))}}]),n}(i.Component);
 k.displayName="Album",r["default"]=k}),
+
+
+*/
+
+import React,{
+  Component,
+  StyleSheet,
+  RefreshControl,
+  View,
+  Text,
+  ListView,
+} from 'react-native';
+
+import CustomeNavigatorBar from '../components/CustomeNavigatorBar.js';
+
+import Checker from './Checker.js';
+
+// // 图库默认数据请求URL
+// const kDefaultUrl = "http://newapi.deyi.com/wedding/api/caselist";
+// // 排序URL
+// const kSortUrl = "http://newapi.deyi.com/wedding/api/casecondition";
+// const kHostAlbumUrl = kDefaultUrl;
+
+
+
+export default class Album extends Component {
+
+  // getInitialState: function() {
+  //   var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+  //   return {
+  //     dataSource: ds.cloneWithRows(['row 1', 'row 2']),
+  //   };
+  // },
+
+  constructor(props) {
+    super(props);
+    var ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2)=>r1 !==r2
+    });
+    // return (
+    //   {
+    //     // isLoading: false,
+    //     // isLoadingTail :false,
+    //     // dataSource:ds.cloneWithRows([{title:'row1'},{title:'row2'}]),
+    //     dataSource:
+    //   }
+    // );
+    this.state = {
+      dataSource:ds.cloneWithRows([{title:'row1'},{title:'row2'}]),
+    }
+  }
+
+  _getNetworkData = (urlString=kDefaultUrl)=>{
+    this.setState({
+      isLoading: true,
+      isLoadingTail: false,
+    });
+
+    fetch(urlString, {
+      headers:{
+        "page":1,
+      }
+    })
+    .then((response) => response.json())
+    .catch((error) => {
+      this.setState({
+        // dataSource:this.getDataSource(),
+        isLoading:false,
+      });
+    })
+    .then((responseData) =>{
+      this.setState({
+        isLoading:false,
+        // dataSource:
+      })
+    })
+
+  };
+
+  _renderRow = (rowData)=>{
+    return (
+      <View style={{height:44, backgroundColor:'green'}}>
+        <Text>
+          {rowData.title}
+        </Text>
+      </View>
+    );
+  };
+
+  // _renderRow = (rowData)=>{
+  //   <View style={{height:44, backgroundColor:'green'}}>
+  //     <Text>
+  //       {rowData.title}
+  //     </Text>
+  //   </View>
+  // }
+
+  // _renderRow: function(rowData: string, sectionID: number, rowID: number) {
+  //   return (
+  //     <Text>
+  //       rowData
+  //     </Text>
+  //   );
+  // }
+
+
+
+  render(){
+    return (
+      <View
+        style={styles.container}
+        >
+        <CustomeNavigatorBar></CustomeNavigatorBar>
+        {/*过滤器View*/}
+        <View style={{height:39, backgroundColor:'gray'}}/>
+        {/*Error*/}
+        {/*<Checker style={{state:-2}}/>*/}
+        {/*<Checker state={-2}/>*/}
+
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this._renderRow}
+          />
+
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+  },
+});

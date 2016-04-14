@@ -89,8 +89,24 @@ export default class Root extends Component
 
 
   }
+
+  _renderScene = (route, nav)=> {
+    switch (route.id) {
+      case homeTabTag:
+        return (<Home navigator={nav} />);
+        break;
+      case albumTabTag:
+        return (<Album navigator={nav} />);
+        break;
+      case merchantTabTag:
+        return (<Merchant navigator={nav} />);
+        break;
+      default:
+        return (<Home navigator={nav} />);
+    }
+  }
 // TODO: 使用 Navigator
-  _renderNavigatorContent = (title='', component=Home, index=0)=> {
+  _renderNavigatorContent = (routeId='', index=0)=> {
     // // 错误
     // var com = ({component}: ReactClass<any>);// 错误
 
@@ -110,10 +126,9 @@ export default class Root extends Component
 
       <Navigator
         style={styles.container}
-        initialRoute={{ message: '初始页面', xx: 'Home' }}
-        renderScene={
-          (route, navigator) => <Album navigator={navigator}/>
-        }
+        initialRoute={{ id: routeId, xx: 'Home' }}
+
+        renderScene = {this._renderScene}
         configureScene={(route) => {
           if (route.sceneConfig) {
             return route.sceneConfig;
@@ -286,9 +301,9 @@ export default class Root extends Component
     return (
 
       <TabNavigator>
-        {this._renderTabItem('推荐', homeTabTag,     ()=>this._tabItemIcon(false, homeSVGPaths),     ()=>this._tabItemIcon(true, homeSVGPaths),     this._renderNavigatorContent())}
-        {this._renderTabItem('图库', albumTabTag,    ()=>this._tabItemIcon(false, albumSVGPaths),    ()=>this._tabItemIcon(true, albumSVGPaths),    this._renderContent())}
-        {this._renderTabItem('商家', merchantTabTag, ()=>this._tabItemIcon(false, merchantSVGPaths), ()=>this._tabItemIcon(true, merchantSVGPaths), this._renderContent())}
+        {this._renderTabItem('推荐', homeTabTag,     ()=>this._tabItemIcon(false, homeSVGPaths),     ()=>this._tabItemIcon(true, homeSVGPaths),     this._renderNavigatorContent(homeTabTag))}
+        {this._renderTabItem('图库', albumTabTag,    ()=>this._tabItemIcon(false, albumSVGPaths),    ()=>this._tabItemIcon(true, albumSVGPaths),    this._renderNavigatorContent(albumTabTag))}
+        {this._renderTabItem('商家', merchantTabTag, ()=>this._tabItemIcon(false, merchantSVGPaths), ()=>this._tabItemIcon(true, merchantSVGPaths), this._renderNavigatorContent(merchantTabTag))}
       </TabNavigator>
 
 

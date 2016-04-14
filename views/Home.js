@@ -48,28 +48,71 @@ import React, {
   Text,
   View,
   ScrollView,
+  RefreshControl,
   Image,
 } from 'react-native';
 
 import ZQMSVGButton from '../components/ZQMSVGButton';
 
 import Channels from './Channels';
+import Logo from '../SVG/Logo.js';
+import Back from '../SVG/Back.js';
+
+import Img from '../components/Img.js';
+
+import Header from './Index/Header.js';
+
+import CustomeNavigatorBar from '../components/CustomeNavigatorBar.js';
+
+
 
 export default class Home extends Component {
 
+  constructor(props){
+    super(props);
+    this.state = {
+      isRefreshing:false,
+    };
+  }
+
+  _onRefresh = (url='')=>{
+    alert(1)
+  }
+
   render(){
     return (
-      <View style={[styles.container, {backgroundColor:'white'}]}>
-        <ScrollView >
+      <View style={[styles.container, ]}>
+        <CustomeNavigatorBar />
+        <ScrollView style={{marginBottom:0}}
+          refreshControl={
+            <RefreshControl
+              refreshing = {this.state.isRefreshing}
+              onRefresh={this._onRefresh}
+              tintColor='red'
+              />
+          }
+          >
           {/*
             <View style={[{backgroundColor:'pink',justifyContent:'center', flexDirection:'row'}]}>
               <Channels style={[{flex:1, }]}/>
             </View>
             */}
 
-          <Channels style={[{flex:1, }, styles.section]}/>
-          <View style={[{flex:1, height: 70, backgroundColor:'pink'}]}>
+          <Channels style={[{flex:1, }, styles.section]} navigator={this.props.navigator}/>
+          <View style={[{flex:1, height: 70, backgroundColor:'#fff'}]}>
+
+            {/*<Img />*/}
+
+            {/*<Img style={{width:148, height:90}} source={{uri:'http://jiehun.deyi.com/uploads/2014/07/22/53919e03e914c1f6b96a7d0c0185e3cd.jpg'}}/>*/}
+            {/*<Img style={{width:148, height:90}} source={{uri:'http://jiehun.deyi.com/uploads/2016/03/28/8ec4e04e8ead581016e2941137b8dea0.jpg'}}/>*/}
+            <Img style={{width:148, height:90}} source={{uri:'http:\/\/jiehun.deyi.com\/uploads\/2016\/02\/16\/cc985b361823f9669574e7302ddac0c4.jpg'}}/>
+            {/*<Img style={{width:148, height:90}}/>*/}
+            {/*<Header title='优惠活动'/>*/}
+
           </View>
+
+
+
         </ScrollView>
       </View>
     );

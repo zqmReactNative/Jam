@@ -8,6 +8,7 @@ import React, {
   TabBarIOS,
   // TabBarItemIOS,
   NavigatorIOS,
+  Navigator,
 } from 'react-native';
 
 var ReactART = React.ART;
@@ -22,6 +23,7 @@ var {
 
 import Recommend from './Recommend';
 import Home from './Home';
+import Album from './Album';
 import Merchant  from './Merchant';
 import SVGIcon from './SVGIcon';
 // 使用的是来自 https://github.com/exponentjs/react-native-tab-navigator 的组件
@@ -70,11 +72,12 @@ export default class Root extends Component
 
 
   // 进行渲染页面内容
-  _renderContent(title='', component=Home) {
+  _renderContent = (title='', component=Home)=> {
     return (
+      /*NavigatorIOS*/
       // 千万别忘了 flex:1, 否则无界面显示
       <NavigatorIOS
-        style={{flex:1}}
+        style={{flex:1,}}
         initialRoute={{
           translucent: false,
           component:component,
@@ -82,6 +85,43 @@ export default class Root extends Component
         }}
         />
 
+    );
+
+
+  }
+// TODO: 使用 Navigator
+  _renderNavigatorContent = (title='', component=Home, index=0)=> {
+    // // 错误
+    // var com = ({component}: ReactClass<any>);// 错误
+
+    return (
+      // <Navigator
+      //   style={styles.container}
+      //   initialRoute={{name:{title}, component:{component}, index:{index}, }}
+      //   renderScene={(route, navigator)=>
+      //     <Home
+      //       navigator={toute.component}
+      //       >
+      //
+      //     </Home>
+      //   }
+      //   />
+
+
+      <Navigator
+        style={styles.container}
+        initialRoute={{ message: '初始页面', xx: 'Home' }}
+        renderScene={
+          (route, navigator) => <Album navigator={navigator}/>
+        }
+        configureScene={(route) => {
+          if (route.sceneConfig) {
+            return route.sceneConfig;
+          }
+          return Navigator.SceneConfigs.FloatFromBottom;
+        }
+      }
+      />
     );
   }
 
@@ -91,9 +131,7 @@ export default class Root extends Component
     throw new Error('缺少参数');
   }
 
-
-
-  _defaultRenderIcon = ()=>{};
+  // _defaultRenderIcon = ()=>{};
 
   _tabItemIcon = (selected=false, paths)=>{
     return (
@@ -237,14 +275,74 @@ export default class Root extends Component
   };
 
 
-
+  /*
+  <TabNavigator>
+    {this._renderTabItem('推荐', homeTabTag,     ()=>this._tabItemIcon(false, homeSVGPaths),     ()=>this._tabItemIcon(true, homeSVGPaths),     this._renderContent())}
+    {this._renderTabItem('图库', albumTabTag,    ()=>this._tabItemIcon(false, albumSVGPaths),    ()=>this._tabItemIcon(true, albumSVGPaths),    this._renderContent())}
+    {this._renderTabItem('商家', merchantTabTag, ()=>this._tabItemIcon(false, merchantSVGPaths), ()=>this._tabItemIcon(true, merchantSVGPaths), this._renderContent())}
+  </TabNavigator>
+    */
   render(){
     return (
+
       <TabNavigator>
-        {this._renderTabItem('推荐', homeTabTag,     ()=>this._tabItemIcon(false, homeSVGPaths),     ()=>this._tabItemIcon(true, homeSVGPaths),     this._renderContent())}
+        {this._renderTabItem('推荐', homeTabTag,     ()=>this._tabItemIcon(false, homeSVGPaths),     ()=>this._tabItemIcon(true, homeSVGPaths),     this._renderNavigatorContent())}
         {this._renderTabItem('图库', albumTabTag,    ()=>this._tabItemIcon(false, albumSVGPaths),    ()=>this._tabItemIcon(true, albumSVGPaths),    this._renderContent())}
         {this._renderTabItem('商家', merchantTabTag, ()=>this._tabItemIcon(false, merchantSVGPaths), ()=>this._tabItemIcon(true, merchantSVGPaths), this._renderContent())}
       </TabNavigator>
+
+
+
+      // <Navigator
+      //   style={styles.container}
+      //   initialRoute={{ message: '初始页面', xx: 'Home' }}
+      //   renderScene={ (route, navigator) => <Home
+      //
+      //       navigator={navigator}
+      //     />}
+      //    configureScene={(route) => {
+      //     if (route.sceneConfig) {
+      //       return route.sceneConfig;
+      //     }
+      //     return Navigator.SceneConfigs.FloatFromBottom;
+      //   }}
+      // />
+
+      // // Warning: Failed propType: Invalid props.style key `tintColor` supplied to `RCTView`.
+      // <TabNavigator>
+      //   <TabNavigator.Item
+      //     title={'Home'}
+      //     selectedTitleStyle={styles.selectedTitleStyle}
+      //     selected={this.state.selectedTab === homeTabTag}
+      //     onPress={()=>this.setState({selectedTab:homeTabTag})}
+      //
+      //     >
+      //     {this._renderNavigatorContent()}
+      //   </TabNavigator.Item>
+      // </TabNavigator>
+
+
+      // // 错误
+      // {this._renderNavigatorContent()}
+
+
+      // // 正确
+      // this._renderNavigatorContent()
+
+      // <Navigator
+      //   style={styles.container}
+      //   initialRoute={{ message: '初始页面', xx: 'Home' }}
+      //   renderScene={ (route, navigator) => <Home
+      //
+      //       navigator={navigator}
+      //     />}
+      //    configureScene={(route) => {
+      //     if (route.sceneConfig) {
+      //       return route.sceneConfig;
+      //     }
+      //     return Navigator.SceneConfigs.FloatFromBottom;
+      //   }}
+      // />
     );
   }
 

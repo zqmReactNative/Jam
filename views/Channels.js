@@ -47,6 +47,8 @@ const homeTabTag = 'Home';
 const albumTabTag = 'Album';
 const merchantTabTag = 'Merchant';
 
+
+
 // 推荐页的8个选项
 export default class Channels extends Component {
   static propTypes = {
@@ -85,9 +87,9 @@ export default class Channels extends Component {
                     onPress={()=>{
                       if (navigator) {
                         navigator.push({
-                          id: albumTabTag,
-                          message: '向右拖拽关闭页面',
-                          sceneConfig: Navigator.SceneConfigs.FloatFromRight,
+                          component:Album,
+                          // message: '向右拖拽关闭页面',
+                          // sceneConfig: Navigator.SceneConfigs.FloatFromRight,
                         });
                       }
                       else {

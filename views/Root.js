@@ -90,23 +90,25 @@ export default class Root extends Component
 
   }
 
-  _renderScene = (route, nav)=> {
-    switch (route.id) {
-      case homeTabTag:
-        return (<Home navigator={nav} />);
-        break;
-      case albumTabTag:
-        return (<Album navigator={nav} />);
-        break;
-      case merchantTabTag:
-        return (<Merchant navigator={nav} />);
-        break;
-      default:
-        return (<Home navigator={nav} />);
-    }
+  _renderScene = (route, navigator)=> {
+    // switch (route.id) {
+    //   case homeTabTag:
+    //     return (<Home navigator={nav} />);
+    //     break;
+    //   case albumTabTag:
+    //     return (<Album navigator={nav} />);
+    //     break;
+    //   case merchantTabTag:
+    //     return (<Merchant navigator={nav} />);
+    //     break;
+    //   default:
+    //     return (<Home navigator={nav} />);
+    // }
+    let Com = route.component;
+    return (<Com navigator={navigator}/>)
   }
 // TODO: 使用 Navigator
-  _renderNavigatorContent = (routeId='', index=0)=> {
+  _renderNavigatorContent = (routeId='', component=Home)=> {
     // // 错误
     // var com = ({component}: ReactClass<any>);// 错误
 
@@ -126,14 +128,20 @@ export default class Root extends Component
 
       <Navigator
         style={styles.container}
-        initialRoute={{ id: routeId, xx: 'Home' }}
+        initialRoute={{ id: routeId, component: component }}
 
-        renderScene = {this._renderScene}
+        // renderScene = {this._renderScene}
+        renderScene = {(route, navigator)=>{
+          const Comp = route.component;
+          return <Comp {...route.params} navigator={navigator}/>
+          }
+        }
+
         configureScene={(route) => {
           if (route.sceneConfig) {
             return route.sceneConfig;
           }
-          return Navigator.SceneConfigs.FloatFromBottom;
+          return Navigator.SceneConfigs.FloatFromRight;
         }
       }
       />
@@ -301,9 +309,9 @@ export default class Root extends Component
     return (
 
       <TabNavigator>
-        {this._renderTabItem('推荐', homeTabTag,     ()=>this._tabItemIcon(false, homeSVGPaths),     ()=>this._tabItemIcon(true, homeSVGPaths),     this._renderNavigatorContent(homeTabTag))}
-        {this._renderTabItem('图库', albumTabTag,    ()=>this._tabItemIcon(false, albumSVGPaths),    ()=>this._tabItemIcon(true, albumSVGPaths),    this._renderNavigatorContent(albumTabTag))}
-        {this._renderTabItem('商家', merchantTabTag, ()=>this._tabItemIcon(false, merchantSVGPaths), ()=>this._tabItemIcon(true, merchantSVGPaths), this._renderNavigatorContent(merchantTabTag))}
+        {this._renderTabItem('推荐', homeTabTag,     ()=>this._tabItemIcon(false, homeSVGPaths),     ()=>this._tabItemIcon(true, homeSVGPaths),     this._renderNavigatorContent(homeTabTag, Home))}
+        {this._renderTabItem('图库', albumTabTag,    ()=>this._tabItemIcon(false, albumSVGPaths),    ()=>this._tabItemIcon(true, albumSVGPaths),    this._renderNavigatorContent(albumTabTag, Album))}
+        {this._renderTabItem('商家', merchantTabTag, ()=>this._tabItemIcon(false, merchantSVGPaths), ()=>this._tabItemIcon(true, merchantSVGPaths), this._renderNavigatorContent(merchantTabTag, Merchant))}
       </TabNavigator>
 
 

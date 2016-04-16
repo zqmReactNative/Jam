@@ -55,6 +55,7 @@ import React,{
   PropTypes,
   Text,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 
 import Svg, {
@@ -216,7 +217,7 @@ export default class Checker extends Component {
               </Link>
               */}
 
-              <View style={[styles.refresh, styles.refreshContent]}>
+              <TouchableOpacity onPress={this.props.onPress} style={[styles.refresh, styles.refreshContent]}>
                 <Svg
                   height="20"
                   width="20"
@@ -241,7 +242,7 @@ export default class Checker extends Component {
                 </Svg>
 
                 <Text style={styles.refreshText}>点我刷新</Text>
-              </View>
+              </TouchableOpacity>
 
 
 

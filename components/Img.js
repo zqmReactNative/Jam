@@ -34,7 +34,7 @@ export default class Img extends Component{
   render(){
     var loadingStyle = this.props.style;
     return (
-      <View style={[loadingStyle, styles.cover]}>
+      <View style={[styles.cover, loadingStyle]}>
         <Surface
           width={40}
           height={40}

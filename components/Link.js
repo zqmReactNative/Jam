@@ -95,10 +95,13 @@ export default class Link extends Component{
   _getContent = ()=>{
     // TouchableHighlight拥有underlayColor属性
     if(this.props.underlayColor){
+
       return (
         <TouchableHighlight
           style={[this.props.styles, this.props.contentContainerStyle]}
           onPress={this._pressHandler}
+          underlayColor={this.props.underlayColor}
+          activeOpacity={this.props.activeOpacity}
           >
           {this.props.renderCellContent()}
         </TouchableHighlight>
@@ -111,6 +114,7 @@ export default class Link extends Component{
           <TouchableOpacity
             style={[this.props.styles, this.props.contentContainerStyle]}
             onPress={this._pressHandler}
+            activeOpacity={this.props.activeOpacity}
             >
             {this.props.renderCellContent()}
           </TouchableOpacity>

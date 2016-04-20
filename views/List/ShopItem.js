@@ -101,7 +101,9 @@ export default class ShopItem extends Component{
     return (
       <View style={styles.container}>
         <Link
-          style={[{flex:1},{underlayColor:"#ebebeb",activeOpacity:1}]}
+          style={{flex:1}}
+          underlayColor={"#ebebeb"}
+          activeOpacity={1}
           onPress={this._didSelectedCell}
           contentContainerStyle={[{flex:1}, styles.item]}
           renderCellContent={()=>{

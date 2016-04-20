@@ -63,10 +63,14 @@ export default class Root extends Component
 
   constructor(props) {
     super(props);
+    global.root = this;
     this.state = {
       selectedTab: defaultTabTag,
+      isHiddenTabBar:false,
     };
   }
+
+
 
 
 
@@ -132,18 +136,23 @@ export default class Root extends Component
 
         // renderScene = {this._renderScene}
         renderScene = {(route, navigator)=>{
+          if (route.routeId === albumTabTag) {
+            this.setState({
+              isHiddenTabBar: true,
+            });
+          }
           const Comp = route.component;
           return <Comp {...route.params} navigator={navigator}/>
           }
         }
 
         configureScene={(route) => {
-          if (route.sceneConfig) {
-            return route.sceneConfig;
+            if (route.sceneConfig) {
+              return route.sceneConfig;
+            }
+            return Navigator.SceneConfigs.FloatFromRight;
           }
-          return Navigator.SceneConfigs.FloatFromRight;
         }
-      }
       />
     );
   }
@@ -306,9 +315,16 @@ export default class Root extends Component
   </TabNavigator>
     */
   render(){
+    var tabBarStyle = {};
+    var sceneStyle = {};
+    if (this.state.isHiddenTabBar) {
+      tabBarStyle.height = 0;
+      tabBarStyle.overflow = 'hidden';
+      sceneStyle.paddingBottom = 0;
+    }
     return (
 
-      <TabNavigator>
+      <TabNavigator ref={(tabbar)=>global.tabbar = tabbar} tabBarStyle={tabBarStyle} sceneStyle={sceneStyle}>
         {this._renderTabItem('推荐', homeTabTag,     ()=>this._tabItemIcon(false, homeSVGPaths),     ()=>this._tabItemIcon(true, homeSVGPaths),     this._renderNavigatorContent(homeTabTag, Home))}
         {this._renderTabItem('图库', albumTabTag,    ()=>this._tabItemIcon(false, albumSVGPaths),    ()=>this._tabItemIcon(true, albumSVGPaths),    this._renderNavigatorContent(albumTabTag, Album))}
         {this._renderTabItem('商家', merchantTabTag, ()=>this._tabItemIcon(false, merchantSVGPaths), ()=>this._tabItemIcon(true, merchantSVGPaths), this._renderNavigatorContent(merchantTabTag, Merchant))}

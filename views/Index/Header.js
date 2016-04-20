@@ -17,7 +17,7 @@ export default class Header extends Component{
 
   render(){
     return (
-      <View style={[styles.header]}>
+      <View style={[styles.header,{backgroundColor:'white'}, this.props.style]}>
         <View style={styles.headerBorder}>
         </View>
         <Text style={styles.headerText}>
@@ -33,7 +33,7 @@ export default class Header extends Component{
 const styles = StyleSheet.create({
   header:{
     paddingHorizontal:10,
-    height:35,
+    height:30,
     alignItems:"center",
     flexDirection:"row"
   },

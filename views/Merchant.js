@@ -187,7 +187,7 @@ export default class Merchant extends Component{
 
     return (
       <View style={styles.container}>
-        <CustomeNavigatorBar />
+        <CustomeNavigatorBar title="商家"/>
         <View style={{height:39, backgroundColor:'pink'}}></View>
           {contentView}
       </View>

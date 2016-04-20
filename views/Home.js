@@ -49,6 +49,7 @@ import React, {
   View,
   ScrollView,
   RefreshControl,
+  ListView,
   Image,
 } from 'react-native';
 
@@ -61,30 +62,57 @@ import Back from '../SVG/Back.js';
 import Img from '../components/Img.js';
 
 import Header from './Index/Header.js';
+import Merchants from './Index/Merchants.js';
+
+import Activity from './List/Activity.js';
 
 import CustomeNavigatorBar from '../components/CustomeNavigatorBar.js';
 
+var resultsCache = {
+  activity:[],
+  shop:[],
+  cases:[],
+};
+const url_home = "http://newapi.deyi.com/wedding/api/index";
+const url_request = {
+  method:'POST',
+  body:JSON.stringify({
 
+  }),
+}
 
 export default class Home extends Component {
 
   constructor(props){
     super(props);
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       isRefreshing:false,
       isLoading:false,
+      dataSource:ds.cloneWithRows(["row 0","row 1"]),
 
     };
   }
 
-  _onRefresh = (url='')=>{
-    alert(1)
+  componentDidMount() {
+    this._onRefresh();
+  }
+
+  _onRefresh = ()=>{
+    alert(1);
+    this.setState={
+      isRefreshing:false,
+    };
+  };
+
+  _getNetworkData = ()=>{
+    fetch()
   }
 
   render(){
     return (
       <View style={[styles.container, ]}>
-        <CustomeNavigatorBar />
+        <CustomeNavigatorBar title={"首页"} titleView={()=><Logo />}/>
         <ScrollView style={{marginBottom:0}}
           refreshControl={
             <RefreshControl
@@ -94,6 +122,7 @@ export default class Home extends Component {
               />
           }
           >
+
           {/*
             <View style={[{backgroundColor:'pink',justifyContent:'center', flexDirection:'row'}]}>
               <Channels style={[{flex:1, }]}/>
@@ -101,17 +130,49 @@ export default class Home extends Component {
             */}
 
           <Channels style={[{flex:1, }, styles.section]} navigator={this.props.navigator}/>
-          <View style={[{flex:1, height: 70, backgroundColor:'#fff'}]}>
+
+
+          <View style={[{flex:1, height: 0, backgroundColor:'#fff'}]}>
 
             {/*<Img />*/}
 
             {/*<Img style={{width:148, height:90}} source={{uri:'http://jiehun.deyi.com/uploads/2014/07/22/53919e03e914c1f6b96a7d0c0185e3cd.jpg'}}/>*/}
             {/*<Img style={{width:148, height:90}} source={{uri:'http://jiehun.deyi.com/uploads/2016/03/28/8ec4e04e8ead581016e2941137b8dea0.jpg'}}/>*/}
-            <Img style={{width:148, height:90}} source={{uri:'http:\/\/jiehun.deyi.com\/uploads\/2016\/02\/16\/cc985b361823f9669574e7302ddac0c4.jpg'}}/>
+
             {/*<Img style={{width:148, height:90}}/>*/}
             {/*<Header title='优惠活动'/>*/}
 
+            {/*<Img style={{width:148, height:90}} source={{uri:'http:\/\/jiehun.deyi.com\/uploads\/2016\/02\/16\/cc985b361823f9669574e7302ddac0c4.jpg'}}/>*/}
+
           </View>
+
+
+
+          {/*活动*/}
+          <ListView
+            style={[{flex:1, }, styles.section]}
+            dataSource={this.state.dataSource}
+            renderRow={(rowData)=><Activity />}
+            renderHeader={()=><Header title="优惠活动" />}
+            />
+          {/*推荐商家*/}
+          {/*
+          <View style={[styles.sectio, {shadowColor:'white'}]}>
+            <Header title="推荐商家" style={{backgroundColor:'white'}}/>
+            <ListView
+              style={[{flex:1, backgroundColor:'white'}]}
+              horizontal={true}
+              dataSource={this.state.dataSource}
+              renderRow={(rowData)=><Activity />}
+              />
+          </View>
+          */}
+          <Merchants />
+
+
+
+
+
 
 
 

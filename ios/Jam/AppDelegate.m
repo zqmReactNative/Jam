@@ -55,7 +55,7 @@ NSString *const kAppHubAppID = @"fDZxL9uhDg26qqHXrKJY";
 #if false
   
 //  _bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  
+  [[UINavigationController alloc] init]
   [AppHub setApplicationID:kAppHubAppID];
   
   AHBuild *build = [[AppHub buildManager] currentBuild];

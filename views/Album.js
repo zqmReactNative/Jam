@@ -94,6 +94,10 @@ export default class Album extends Component {
     //   }
     // );
     this.state = {
+      isLoading:false,
+      isFirstLoading:false,
+      isNetworkError:false,
+      isRefreshing:false,
       dataSource:ds.cloneWithRows([{title:'row1'},{title:'row2'}]),
     }
   }
@@ -158,7 +162,7 @@ export default class Album extends Component {
       <View
         style={styles.container}
         >
-        <CustomeNavigatorBar></CustomeNavigatorBar>
+        <CustomeNavigatorBar title="图库" />
         {/*过滤器View*/}
         <View style={{height:39, backgroundColor:'gray'}}/>
         {/*Error*/}

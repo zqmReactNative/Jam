@@ -85,6 +85,9 @@ export default class Channels extends Component {
                     title={item.title}
                     colorOfCircle={item.fillColor}
                     onPress={()=>{
+                      global.root.setState({
+                        isHiddenTabBar:true,
+                      });
                       if (navigator) {
                         navigator.push({
                           component:Album,

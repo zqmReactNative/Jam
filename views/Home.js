@@ -65,6 +65,7 @@ import Header from './Index/Header.js';
 import Merchants from './Index/Merchants.js';
 
 import Activity from './List/Activity.js';
+import ShopCell from './List/ShopCell.js';
 
 import CustomeNavigatorBar from '../components/CustomeNavigatorBar.js';
 
@@ -86,27 +87,61 @@ export default class Home extends Component {
   constructor(props){
     super(props);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var dsShop = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      isRefreshing:false,
+      isRefreshing:true,
       isLoading:false,
-      dataSource:ds.cloneWithRows(["row 0","row 1"]),
+      dataSource:ds.cloneWithRows(Array(2)),
+      dataSourceOfShop:dsShop.cloneWithRows(Array(4)),
 
     };
   }
 
   componentDidMount() {
+    // this.setState = {
+    //   isRefreshing:true,
+    // };
     this._onRefresh();
   }
 
   _onRefresh = ()=>{
-    alert(1);
-    this.setState={
-      isRefreshing:false,
-    };
+    this._getNetworkData();
   };
 
   _getNetworkData = ()=>{
-    fetch()
+
+
+
+
+
+    fetch(url_home,url_request)
+    .then((response)=>response.json())
+    .then((responseData)=>{
+
+      resultsCache.activity = responseData.data.activity;
+      resultsCache.shop = responseData.data.shop;
+      resultsCache.cases = responseData.data.cases;
+      // ERROR!错误!
+      // this.setState = {
+      //   isRefreshing:false,
+      //   dataSource:this.state.dataSource.cloneWithRows(["r 0", "r 1", "r2", "r3", "r4"]),
+      // };
+      this.setState({
+        isRefreshing:false,
+        dataSource:this.state.dataSource.cloneWithRows(resultsCache.activity),
+        dataSourceOfShop:this.state.dataSourceOfShop.cloneWithRows(resultsCache.shop),
+      });
+    })
+    .catch((error)=>{
+      resultsCache.activity = Array(2);
+      resultsCache.shop = Array(4);
+      resultsCache.cases = [];
+      this.setState({
+        isRefreshing:false,
+        dataSource:this.state.dataSource.cloneWithRows(resultsCache.activity),
+        dataSourceOfShop:this.state.dataSourceOfShop.cloneWithRows(resultsCache.shop),
+      });
+    })
   }
 
   render(){
@@ -152,7 +187,7 @@ export default class Home extends Component {
           <ListView
             style={[{flex:1, }, styles.section]}
             dataSource={this.state.dataSource}
-            renderRow={(rowData)=><Activity />}
+            renderRow={(rowData)=><Activity title={rowData.title} cover={rowData.cover} shopname={rowData.shopname}/>}
             renderHeader={()=><Header title="优惠活动" />}
             />
           {/*推荐商家*/}
@@ -167,7 +202,17 @@ export default class Home extends Component {
               />
           </View>
           */}
-          <Merchants />
+          {/*<Merchants />*/}
+
+
+          <View style={{backgroundColor:'white'}} >
+              <Header title="推荐商家"  />
+              <ListView
+                dataSource={this.state.dataSourceOfShop}
+                horizontal={true}
+                renderRow={(rowData)=><ShopCell shopname={rowData.shopname} logo={rowData.logo}/>}
+                />
+            </View>
 
 
 

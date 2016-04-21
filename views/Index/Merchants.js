@@ -52,18 +52,19 @@ export default class Merchants extends Component{
   static propTypes = {
     ...View.propTypes,
     title:PropTypes.string,
-    logo:PropTypes.string,
+    shopname:PropTypes.string,
+    // shop:PropTypes.array,
   };
 
   constructor(props, content){
     super(props,content);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource:ds.cloneWithRows(["row 0", "row 1", "row 2", "row 3"]),
+      dataSource:ds.cloneWithRows(this.props.shop),
     };
   }
   _renderRow = (rowData)=>{
-    const {name, logo} = this.props;
+    const {shopname, logo} = rowData;
     return (
       <View>
         <Link
@@ -86,7 +87,7 @@ export default class Merchants extends Component{
                 </View>
                 <View>
                   <Text numberOfLines={1} style={styles.text}>
-                    {name}
+                    {shopname}
                   </Text>
                 </View>
               </View>

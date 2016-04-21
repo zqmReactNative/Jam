@@ -59,7 +59,7 @@ export default class Activity extends Component{
     source:Image.propTypes.source,
     title:PropTypes.string,
     cover:PropTypes.string,//商品图片地址
-    shopName:PropTypes.string,//商品名,注意JSON里面为shopname
+    shopname:PropTypes.string,//商品名,注意JSON里面为shopname
     shopId:PropTypes.string,
   };
 
@@ -101,7 +101,7 @@ export default class Activity extends Component{
                     */}
                   <View>
                     <Text numberOfLines={2} style={[styles.title, ]}>{this.props.title}</Text>
-                    <Text numberOfLines={1} style={[styles.shopName]}>{this.props.shopName}</Text>
+                    <Text numberOfLines={1} style={[styles.shopName]}>{this.props.shopname}</Text>
                   </View>
 
 

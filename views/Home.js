@@ -52,6 +52,7 @@ import React, {
   ListView,
   Image,
 } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import ZQMSVGButton from '../components/ZQMSVGButton';
 
@@ -212,7 +213,18 @@ export default class Home extends Component {
                 horizontal={true}
                 renderRow={(rowData)=><ShopCell shopname={rowData.shopname} logo={rowData.logo}/>}
                 />
-            </View>
+          </View>
+
+          
+
+          {/*
+
+          <ScrollableTabView>
+            <Merchants tabLabel="11"/>
+            <Merchants tabLabel="22"/>
+            <Merchants tabLabel="33"/>
+          </ScrollableTabView>
+          */}
 
 
 
